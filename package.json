@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --reporter nyan --exit tests/db/test.js",
+    "test": "./node_modules/mocha/bin/mocha --reporter nyan --exit tests/test.js",
     "seed": "node ./db/seed.js"
   },
   "author": "",
