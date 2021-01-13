@@ -101,6 +101,8 @@ Gustavo Lambert`.split('\n');
 
 const randRating = () => Math.floor(Math.random() * 6);
 const randPurchased = () => !!Math.floor(Math.random() * 2);
+const icons = require('../../src/assets/icons.js');
+const randIcon = () => icons[Math.floor(Math.random() * icons.length)];
 
 const bodies = `There are only three ways to make this work. The first is to let me take care of everything. The second is for you to take care of everything. The third is to split everything 50 / 50. I think the last option is the most preferable, but I'm certain it'll also mean the end of our marriage.
 The trees, therefore, must be such old and primitive techniques that they thought nothing of them, deeming them so inconsequential that even savages like us would know of them and not be suspicious. At that, they probably didn't have too much time after they detected us orbiting and intending to land. And if that were true, there could be only one place where their civilization was hidden.
@@ -210,7 +212,8 @@ const maybePhoto = () => {
 const reviews = names.reduce((m, i, n) => {
   let o = {
     author: {
-      name: i
+      name: i,
+      photo: randIcon()
     },
     rating: randRating(),
     purchased: randPurchased(),

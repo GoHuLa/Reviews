@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 const {expect, assert} = require('chai');
-const mongoose = require('../../db/mongoose.js');
+const mongoose = require('../db/mongoose.js');
+const axios = require('axios');
+const url = 'http://localhost:3000'
 
 const gimmickReview = {
   author: {
@@ -72,3 +74,12 @@ describe('Basic CRUD', function() {
   });
 })
 
+describe('Server', function() {
+  describe('GETs', function() {
+    it('should return a doc with the author name as the endpoint', async function() {
+      const {data} = await axios.get(url + '/api/reviews/Jan%20Barnett')
+      expect(data).to.be.a('object');
+      expect(data.author.name).to.equal('Jan Barnett');
+    })
+  })
+})
