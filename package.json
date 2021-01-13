@@ -1,0 +1,21 @@
+{
+  "name": "front-end-capstone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --reporter nyan --exit tests/db/test.js",
+    "seed": "node ./db/seed.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "mongo-seeding": "^3.5.0",
+    "mongoose": "^5.11.11",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.3",
+    "react-dom": "^17.0.1"
+  }
+}
