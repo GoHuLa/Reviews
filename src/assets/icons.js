@@ -1,0 +1,1 @@
+module.exports = ["https://img.icons8.com/dusk/64/000000/chimpanzee.png", "https://img.icons8.com/dusk/64/000000/orca.png", "https://img.icons8.com/dusk/64/000000/turtle.png", "https://img.icons8.com/dusk/64/000000/cat.png", "https://img.icons8.com/dusk/64/000000/guinea-pig.png", "https://img.icons8.com/dusk/64/000000/dog.png"];
