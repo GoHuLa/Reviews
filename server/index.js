@@ -8,14 +8,15 @@ const Reviews = require('../db/mongoose.js').model;
 
 app.use(bodyparser.json());
 
-app.get('/api/reviews/:author', async (req, res) => {
+app.get('/api/reviews/:id', async (req, res) => {
   try {
-    const review = await Reviews.findOne({'author.name': decodeURI(req.params.author)});
-    res.status(200).send(review);
+    const reviews = await Reviews.find({ prodId: req.params.id });
+    console.log(reviews);
+    res.status(200).send(reviews);
   } catch (err) {
     console.log(err);
     res.status(400).send();
   }
-})
+});
 
 app.listen(port);
