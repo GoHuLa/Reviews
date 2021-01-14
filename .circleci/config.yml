@@ -2,7 +2,6 @@ version: '2.1'
 orbs:
   node: circleci/node@4.1.0
   slack: circleci/slack@4.1
-  eslint: arrai/eslint@2.0.0
 jobs:
   test:
     docker:
