@@ -1,11 +1,30 @@
-version: 2.0
+version: '2.1'
+orbs:
+  slack: circleci/slack@4.1
 jobs:
-  build:
+  notify:
     docker:
-      - image: circleci/ruby:2.4.2-jessie-node
-        auth:
-          username: jclasley
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: 'cimg/base:stable'
     steps:
-      - checkout
-      - run: echo "Hello World"
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "test notification from circle",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
+workflows:
+  send-notification:
+    jobs:
+      - notify:
+          context: Slack
