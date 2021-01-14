@@ -3,11 +3,20 @@ orbs:
   node: circleci/node@4.1.0
   slack: circleci/slack@4.1
 jobs:
-  build:
+  test:
     docker:
-      - image: 'cimg/base:stable'
+      - image: circleci/node
     steps:
       - checkout
+      - node/install-npm
+      - node/install-packages
+      - run:
+          name: 'Run tests with npm'
+          command: npm run test
+  notify:
+    docker:
+      - image: cimg/base:stable
+    steps:
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -17,5 +26,6 @@ jobs:
 workflows:
   send-notification:
     jobs:
-      - build:
+      - test
+      - notify:
           context: Slack
