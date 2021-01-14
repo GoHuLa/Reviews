@@ -2,29 +2,17 @@ version: '2.1'
 orbs:
   slack: circleci/slack@4.1
 jobs:
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "test notification from circle",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
+  - build:
+      docker:
+        - image: 'cimg/base:stable'
+      steps:
+        - run:
+            command: npm run test
+        - slack/notify:
+            event: always
+            template: basic_fail_1
 workflows:
   send-notification:
     jobs:
-      - notify:
+      - build:
           context: Slack
