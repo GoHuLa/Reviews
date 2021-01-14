@@ -8,12 +8,12 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - checkout
-      - node/test
       - slack/notify:
           event: always
           template: basic_fail_1
 workflows:
   send-notification:
     jobs:
+      - node/test
       - build:
           context: Slack
