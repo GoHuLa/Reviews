@@ -6,14 +6,9 @@ jobs:
   build:
     docker:
       - image: 'cimg/base:stable'
-    executor:
-      name: node/default
-      tag: '13.14'
     steps:
       - checkout
-      - node/install-packages
-      - run:
-          command: npm run test
+      - node/test
       - slack/notify:
           event: always
           template: basic_fail_1
