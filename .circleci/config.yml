@@ -1,0 +1,36 @@
+version: '2.1'
+orbs:
+  node: circleci/node@4.1.0
+  slack: circleci/slack@4.1
+jobs:
+  test:
+    docker:
+      - image: circleci/node
+      - image: circleci/mongo:4.1.9
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: 'seed db'
+          command: npm run seed
+      - run:
+          name: 'Run tests with npm'
+          command: npm run test
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+  lint: 
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run:
+          name: 'linting'
+          command: npm run lint
+workflows:
+  run-unit-tests:
+    jobs:
+      - lint
+      - test:
+          context: Slack
+          

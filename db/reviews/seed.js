@@ -101,6 +101,8 @@ Gustavo Lambert`.split('\n');
 
 const randRating = () => Math.floor(Math.random() * 6);
 const randPurchased = () => !!Math.floor(Math.random() * 2);
+const icons = require('../../src/assets/icons.js');
+const randIcon = () => icons[Math.floor(Math.random() * icons.length)];
 
 const bodies = `There are only three ways to make this work. The first is to let me take care of everything. The second is for you to take care of everything. The third is to split everything 50 / 50. I think the last option is the most preferable, but I'm certain it'll also mean the end of our marriage.
 The trees, therefore, must be such old and primitive techniques that they thought nothing of them, deeming them so inconsequential that even savages like us would know of them and not be suspicious. At that, they probably didn't have too much time after they detected us orbiting and intending to land. And if that were true, there could be only one place where their civilization was hidden.
@@ -204,18 +206,39 @@ Eating raw fish didn't sound like a good idea. "It's a delicacy in Japan," didn'
 Sometimes that's just the way it has to be. Sure, there were probably other options, but he didn't let them enter his mind. It was done and that was that. It was just the way it had to be.`.split('\n');
 
 const maybePhoto = () => {
-  return Math.floor(Math.random() * 3) > 1 ? 'https://picsum.photos/200' : '';
+  const yes = Math.floor(Math.random() * 3) > 1;
+  if (yes) {
+    if (photos.length) {
+      return `http://reviewsforetsy2021.s3-us-west-1.amazonaws.com/${photos.splice(0, 1)}.jpg`;
+    }
+  }
+  return '';
+}
+
+const photos = [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+  100, 101, 102, 103, 104, 105, 106, 107, 19, 110, 111, 112, 113, 114, 115, 116, 117];
+
+
+const randInts = `19857 14153 15315 19098 19809
+17186	12254	12779	16728	13210
+12381	12482	19456	15583	16013
+11906	17756	19053	14962	13154`.split(/\s/);
+
+const randProdId = (s) => {
+  return Math.floor(Math.random() * 21);
 }
 
 const reviews = names.reduce((m, i, n) => {
   let o = {
     author: {
-      name: i
+      name: i,
+      photo: randIcon()
     },
     rating: randRating(),
     purchased: randPurchased(),
     body: bodies[n],
-    photo: maybePhoto()
+    photo: maybePhoto(),
+    prodId: randProdId()
   };
   return m.concat([o])
 }, []);
