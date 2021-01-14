@@ -1,11 +1,14 @@
 version: '2.1'
 orbs:
+  node: circleci/node@4.1.0
   slack: circleci/slack@4.1
 jobs:
   build:
     docker:
       - image: 'cimg/base:stable'
     steps:
+      - checkout
+      - node/install-packages
       - run:
           command: npm run test
       - slack/notify:
