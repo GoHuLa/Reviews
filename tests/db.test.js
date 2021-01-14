@@ -33,6 +33,7 @@ describe('review collection', () => {
     expect(review.author).toHaveProperty('name');
     expect(review).toHaveProperty('purchased');
     expect(review).toHaveProperty('body');
+    expect(review).toHaveProperty('photo');
     expect(review).toHaveProperty('prodId');
   });
   test('has items with a product id, and that product id corresponds to a product in the product collection', async () => {
