@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "./node_modules/.bin/eslint . --ignore-path ./.eslintignore",
     "test": "jest --detectOpenHandles --collectCoverage",
     "seed": "node ./db/seed.js",
     "start": "nodemon server/index.js"
