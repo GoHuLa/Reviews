@@ -2,15 +2,15 @@ version: '2.1'
 orbs:
   slack: circleci/slack@4.1
 jobs:
-  - build:
-      docker:
-        - image: 'cimg/base:stable'
-      steps:
-        - run:
-            command: npm run test
-        - slack/notify:
-            event: always
-            template: basic_fail_1
+  build:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - run:
+          command: npm run test
+      - slack/notify:
+          event: always
+          template: basic_fail_1
 workflows:
   send-notification:
     jobs:
