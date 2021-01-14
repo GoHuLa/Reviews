@@ -10,4 +10,4 @@ const seeder = new Seeder(config);
 const collections = seeder.readCollectionsFromPath(path.resolve(__dirname));
 
 const seed = async () => seeder.import(collections);
-seed().then(() => console.log('seeded'));
+seed();
