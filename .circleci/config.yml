@@ -9,11 +9,13 @@ jobs:
     steps:
       - checkout
       - slack/notify:
-          event: always
+          event: fail
           template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_pass_1
 workflows:
   send-notification:
     jobs:
-      - node/test
       - build:
           context: Slack
