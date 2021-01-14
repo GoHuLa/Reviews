@@ -11,10 +11,8 @@ app.use(bodyparser.json());
 app.get('/api/reviews/:id', async (req, res) => {
   try {
     const reviews = await Reviews.find({ prodId: req.params.id });
-    console.log(reviews);
     res.status(200).send(reviews);
   } catch (err) {
-    console.log(err);
     res.status(400).send();
   }
 });
