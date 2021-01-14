@@ -20,7 +20,7 @@ jobs:
           event: fail
           template: basic_fail_1
 workflows:
-  send-notification:
+  run-unit-tests:
     jobs:
       - test:
           context: Slack
