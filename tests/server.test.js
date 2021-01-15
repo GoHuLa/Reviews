@@ -2,7 +2,7 @@
 const supertest = require('supertest');
 const http = require('http');
 const app = require('../server/index');
-const { Reviews } = require('../db/mongoose.js');
+const { db, Reviews } = require('../db/mongoose.js');
 
 const request = supertest(app);
 
@@ -13,7 +13,9 @@ beforeAll((done) => {
   server.listen(done);
 });
 afterAll((done) => {
-  server.close(done);
+  db.disconnect();
+  server.close();
+  done();
 });
 
 const reqAtId = (id) => request.get(`/api/reviews/${id}`);
