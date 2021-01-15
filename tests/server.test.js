@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 const supertest = require('supertest');
 const http = require('http');
-const app = require('../index');
-const { Reviews } = require('../../db/mongoose.js');
+const app = require('../server/index');
+const { Reviews } = require('../db/mongoose.js');
 
 const request = supertest(app);
 
