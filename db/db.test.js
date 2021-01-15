@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Reviews, Products } = require('../db/mongoose.js');
+const { Reviews, Products } = require('./mongoose.js');
 
 beforeAll(async () => {
   await mongoose.connect('mongodb://localhost/etsy');

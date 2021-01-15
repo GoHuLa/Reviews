@@ -225,7 +225,7 @@ const randInts = `19857 14153 15315 19098 19809
 11906	17756	19053	14962	13154`.split(/\s/);
 
 const randProdId = (s) => {
-  return Math.floor(Math.random() * 21);
+  return Math.floor(Math.random() * 21).toString();
 }
 
 const reviews = names.reduce((m, i, n) => {
