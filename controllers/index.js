@@ -7,7 +7,6 @@ const getReview = (prodId) => (
       if (_.isEmpty(data)) {
         throw new Error('no data found');
       }
-      console.log(data);
       return data;
     })
     .catch((err) => err)

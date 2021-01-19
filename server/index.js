@@ -3,9 +3,8 @@ const bodyparser = require('body-parser');
 const path = require('path');
 
 const app = express();
-const port = 3000;
 
-const Reviews = require('../db/mongoose.js').model;
+const { Reviews } = require('../db/mongoose.js');
 
 app.use(bodyparser.json());
 app.use(express.static(path.resolve(__dirname, '../public')));
@@ -21,11 +20,30 @@ app.get('/api/reviews', async (req, res) => {
 
 app.get('/api/reviews/:id', async (req, res) => {
   try {
-    const reviews = await Reviews.find({ prodId: req.params.id });
+    const reviews = await Reviews.find({ prodId: req.params.id.toString() });
     res.status(200).send(reviews);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+app.post('/api/reviews', async (req, res) => {
+  try {
+    let review = new Reviews(req.body);
+    review = await review.save();
+    res.status(201).send(review);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+app.delete('/api/reviews/:id', async (req, res) => {
+  try {
+    const review = await Reviews.findByIdAndDelete(req.params.id);
+    res.status(204).send(review);
   } catch (err) {
     res.status(400).send();
   }
 });
 
-app.listen(port);
+module.exports = app;
