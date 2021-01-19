@@ -22,7 +22,7 @@ const Products = ({ change }) => {
   return (
     <>
       {[...getProdIds()].map((id) => (
-        <button type="button" onClick={() => change(id)}>{id}</button>
+        <button key={id} type="button" onClick={() => change(id)}>{id}</button>
       ))}
     </>
   );

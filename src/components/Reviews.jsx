@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
@@ -23,11 +24,10 @@ const Reviews = (props) => {
   return (
     <Container>
       {reviews.map((review) => (
-        <Row>
+        <Row key={review._id}>
           <Review review={review} />
         </Row>
       ))}
-
     </Container>
   );
 };

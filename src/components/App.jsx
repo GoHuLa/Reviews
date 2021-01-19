@@ -9,7 +9,7 @@ const App = () => {
     <>
       <Products change={setProdId} />
       <NewReview />
-      <Reviews prodId={prodId} />
+      <Reviews key={prodId} prodId={prodId} />
     </>
   );
 };

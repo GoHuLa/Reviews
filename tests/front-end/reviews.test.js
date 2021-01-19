@@ -3,119 +3,95 @@
  * @test-environment jsdom
  */
 import 'jsdom-global/register';
-import React, { useState as useStateMock } from 'react';
-import enzyme, { shallow, mount } from 'enzyme';
+import React from 'react';
+import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import App from '../../src/components/App';
 import Products from '../../src/components/Products';
 import Reviews from '../../src/components/Reviews';
 import Review from '../../src/components/Review';
 
-const Adapter = require('enzyme-adapter-react-16');
-const Controller = require('../../controllers/index.js');
-
-enzyme.configure({ adapter: new Adapter() });
-
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useState: jest.fn(),
-}));
-
-jest.mock('../../controllers/index.js');
-const setStateMock = jest.fn();
-useStateMock.mockImplementation((init) => [init, setStateMock]);
-
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-describe('<App />', () => {
-  let wrapper;
-  beforeEach(() => {
-    wrapper = shallow(<App />);
-  });
-  test('has a <NewReview /> component', () => {
-    expect(wrapper.find('NewReview')).toHaveLength(1);
-  });
-  test('has a "prodId" key on state', () => {
-    expect(useStateMock).toHaveBeenCalled();
-    expect(useStateMock).toHaveBeenCalledWith('0');
-  });
-  test('has a <Reviews /> component that receives a prodId', () => {
-    expect(wrapper.find('Reviews')).toHaveLength(1);
-  });
-});
+const Controller = require('../../controllers');
 
 describe('<Products />', () => {
-  let wrap;
+  let controllerSpy;
   beforeEach(() => {
-    const myMock = jest.fn();
-    Controller.getAll.mockResolvedValue([{ prodId: '1' }, { prodId: '2' }, { prodId: '3' }]);
-    wrap = mount(<Products change={myMock.mockName} />);
+    controllerSpy = jest.spyOn(Controller, 'getAll');
+    controllerSpy.mockResolvedValue([{ prodId: '1' }, { prodId: '2' }]);
   });
   afterEach(() => {
     jest.clearAllMocks();
   });
-  test('initializes with an empty array, then calls getAll from the controller', () => {
-    expect(useStateMock).toHaveBeenCalledWith([]);
-    expect(setStateMock).toHaveBeenCalledWith([{ prodId: '1' }, { prodId: '2' }, { prodId: '3' }]);
+  test('creates buttons for each prodId returned in getAll', async () => {
+    const { findAllByRole } = render(<Products change={jest.fn()} />);
+    await waitFor(() => expect(controllerSpy).toHaveBeenCalled());
+    const buttons = await findAllByRole('button');
+    expect(buttons).toHaveLength(2);
   });
-  test('fills in with products', () => {
-    // Controller.getAll.mockResolvedValue([{ prodId: '1' }, { prodId: '2' }, { prodId: '3' }]);
-    console.log(wrap.debug());
-    expect(wrap.find('button')).toHaveLength(3);
+  test('clicking a button calls the passed in function with the argument as the button\'s prodId', async () => {
+    const mockClick = jest.fn();
+    const { findByText } = render(<Products change={mockClick} />);
+    const btnOne = await findByText('1');
+    const btnTwo = await findByText('2');
+    userEvent.click(btnOne);
+    userEvent.click(btnTwo);
+    expect(mockClick.mock.calls).toEqual([['1'], ['2']]);
   });
-  test('clicking on a product triggers a change with the product ID', () => {
-    const button = wrap.find('button').at(0);
-    button.invoke('onClick');
-    expect(setStateMock).toHaveBeenCalledWith(button.text());
+});
+
+describe('<Review />', () => {
+  let mockReview;
+  beforeAll(() => {
+    mockReview = {
+      author: {
+        name: 'Jon',
+      },
+      rating: 5,
+      purchased: false,
+      body: 'Great product!',
+      photo: 'sampleWebpage.com/100.jpg',
+    };
+  });
+
+  test('creates a review from the author name, rating, purchased, and body', () => {
+    const { queryByRole, getByText } = render(<Review review={mockReview} />);
+    expect(queryByRole('heading')).toBeTruthy();
+    expect(getByText('Jon')).toBeTruthy();
+    expect(getByText('5')).toBeTruthy();
+    expect(getByText('Great product!')).toBeTruthy();
+    expect(queryByRole('img')).toBeTruthy();
   });
 });
 
 describe('<Reviews />', () => {
-  let wrapper;
-  let twoFakes;
+  let controllerSpy;
+  let mockReview;
   beforeEach(() => {
-    twoFakes = [{ body: '1' }, { body: '2' }];
-    Controller.getReview.mockResolvedValue(twoFakes);
-    wrapper = mount(<Reviews prodId="1" />);
+    controllerSpy = jest.spyOn(Controller, 'getReview');
+    mockReview = {
+      author: {
+        name: 'Jon',
+      },
+      rating: 5,
+      purchased: false,
+      body: 'Great product!',
+      photo: 'sampleWebpage.com/100.jpg',
+    };
+    controllerSpy.mockResolvedValue([
+      { ...mockReview, _id: 1, prodId: '1' },
+      { ...mockReview, _id: 2, prodId: '1' }]);
   });
   afterEach(() => {
     jest.clearAllMocks();
   });
-  test('has a "prodId" prop', () => {
-    expect(wrapper.exists()).toBeTruthy();
-    expect(wrapper.props()).toHaveProperty('prodId');
-    expect(wrapper.props().prodId).toEqual('1');
+  test('calls Contoller.getReview on initialization', async () => {
+    render(<Reviews prodId="1" />);
+    await waitFor(() => expect(controllerSpy).toHaveBeenCalled());
   });
-  test('has a "reviews" state that initializes to an empty array', () => {
-    expect(useStateMock).toHaveBeenCalledWith([]);
-  });
-  test('sets "reviews" to reviews from DB on mount', async () => {
-    expect(Controller.getReview).toHaveBeenCalled();
-    expect(useStateMock).toHaveBeenNthCalledWith(1, []);
-    // await act(async () => {
-    //   await flushPromises();
-    // });
-    expect(setStateMock).toHaveBeenNthCalledWith(1, twoFakes);
-  });
-});
-
-describe('individual <Review />', () => {
-  test('destructures the review into the body, author, rating, purchase status, and any photos', () => {
-    const review = {
-      author: {
-        name: 'Jon',
-        photoId: '',
-      },
-      rating: 5,
-      purchased: false,
-      body: 'Great product',
-      photo: 'something.jpg',
-      prodId: '1',
-    };
-    const wrap = shallow(<Review review={review} />);
-    expect(wrap.exists()).toBeTruthy();
-    expect(wrap.find('div')).toHaveLength(5);
-    expect(wrap.find('.body').text()).toEqual('Great product');
+  test('renders a review for each product returned by Controller.getReview', async () => {
+    const { findAllByText } = render(<Reviews prodId="1" />);
+    const reviews = await findAllByText('Jon');
+    expect(reviews).toHaveLength(2);
   });
 });
