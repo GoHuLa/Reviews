@@ -7,7 +7,6 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import App from '../../src/components/App';
 import Products from '../../src/components/Products';
 import Reviews from '../../src/components/Reviews';
 import Review from '../../src/components/Review';
