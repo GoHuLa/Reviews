@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
 import Media from 'react-bootstrap/Media';
 
+import Stars from './Stars';
+
 const Review = ({ review }) => (
   <div className="review">
     <Media>
       <Media.Body>
         <h5>{review.author.name}</h5>
-        {review.rating}
+        <Stars rating={review.rating} />
         <br />
         <small>{review.purchased ? 'bought' : 'didn\'t buy'}</small>
         <p>
