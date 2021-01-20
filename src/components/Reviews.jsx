@@ -2,8 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Image from 'react-bootstrap/Image';
 
 import FilledStars from '../assets/filled-stars.png';
 import EmptyStars from '../assets/empty-stars.png';
@@ -34,26 +32,12 @@ const Reviews = (props) => {
     setAvgRating(avg);
   }, [reviews]);
 
-  const photoArray = reviews.reduce((photos, i) => {
-    if (i.photo) {
-      photos.push(i.photo);
-    }
-    return photos;
-  }, []);
-
-  const photos = (
-    <>
-      <h4>Photos:</h4>
-      {photoArray.map((photo) => <Image src={photo} rounded />)}
-    </>
-  );
-
   return (
     <>
       {!reviews.length ? 'Loading...'
         : (
           <Container>
-            <h3>
+            <h3 data-testid="review-count">
               {`${reviews.length} review${reviews.length > 1 ? 's' : ''}`}
               <div className={style.stars}>
                 <img

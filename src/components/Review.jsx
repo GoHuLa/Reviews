@@ -7,6 +7,7 @@ import Badge from 'react-bootstrap/Badge';
 import Collapse from 'react-bootstrap/Collapse';
 
 import Stars from './Stars';
+
 import style from './review.module.css';
 
 const moment = require('moment');
