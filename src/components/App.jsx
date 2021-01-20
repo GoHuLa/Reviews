@@ -3,6 +3,8 @@ import Reviews from './Reviews';
 import NewReview from './NewReview';
 import Products from './Products';
 
+import '../style.css';
+
 const App = () => {
   const [prodId, setProdId] = React.useState('0');
   return (

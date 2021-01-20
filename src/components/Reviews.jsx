@@ -3,10 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Image from 'react-bootstrap/Image';
 
 import FilledStars from '../assets/filled-stars.png';
 import EmptyStars from '../assets/empty-stars.png';
 import Review from './Review';
+
+/* CSS */
+import style from './stars.module.css';
 
 const Controller = require('../../controllers');
 
@@ -30,6 +34,20 @@ const Reviews = (props) => {
     setAvgRating(avg);
   }, [reviews]);
 
+  const photoArray = reviews.reduce((photos, i) => {
+    if (i.photo) {
+      photos.push(i.photo);
+    }
+    return photos;
+  }, []);
+
+  const photos = (
+    <>
+      <h4>Photos:</h4>
+      {photoArray.map((photo) => <Image src={photo} rounded />)}
+    </>
+  );
+
   return (
     <>
       {!reviews.length ? 'Loading...'
@@ -37,15 +55,15 @@ const Reviews = (props) => {
           <Container>
             <h3>
               {`${reviews.length} review${reviews.length > 1 ? 's' : ''}`}
-              <div className="stars">
+              <div className={style.stars}>
                 <img
-                  className="stars"
+                  className={style.stars}
                   src={EmptyStars}
                   alt=""
                   style={{ width: '244px' }}
                 />
                 <img
-                  className="stars"
+                  className={style.stars}
                   src={FilledStars}
                   alt=""
                   data-testid="rating-stars"
@@ -56,15 +74,13 @@ const Reviews = (props) => {
             <hr />
             {reviews.map((review) => (
               <>
-                <Row key={review._id}>
-                  <Review review={review} />
-                </Row>
+                <Review review={review} />
                 <hr />
               </>
             ))}
+            {/* <Row>{photoArray.length ? photos : <></>}</Row> */}
           </Container>
         )}
-
     </>
   );
 };

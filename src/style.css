@@ -1,0 +1,33 @@
+
+img {
+  grid-area: 1 / 2 / 4;
+  width: 171px;
+  height: 180px;
+}
+
+h3 {
+  display: grid;
+  grid-template: 1fr / 1fr 1fr;
+  align-items: center;
+  width: fit-content;
+}
+
+h5 {
+  width: fit-content;
+}
+
+h3 > {
+  width: fit-content;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+span {
+  margin-bottom: 1rem;
+}

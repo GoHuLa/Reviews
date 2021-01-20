@@ -1,0 +1,20 @@
+div.stars {
+  transform: scale(0.6);
+  display: grid;
+  grid-template: 1fr / 1fr;
+  grid-area: 1 / 2;
+}
+span.stars {
+  display: grid;
+  grid-template: 1fr / 1fr;
+  grid-area: 2 / 2;
+}
+
+.stars {
+  object-position: 0;
+  object-fit: none;
+  height: fit-content;
+  width: fit-content;
+  grid-area: 2 / 1;
+}
+

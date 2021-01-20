@@ -1,24 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FilledStars from '../assets/filled-stars.png';
-import EmptyStars from '../assets/empty-stars.png';
+import FilledStars from '../assets/filled-stars-sm.png';
+import EmptyStars from '../assets/empty-stars-sm.png';
+
+/* CSS */
+import style from './stars.module.css';
 
 const Stars = ({ rating }) => (
-  <div className="stars individual">
+  <span className={style.stars}>
     <img
-      className="stars"
+      className={`${style.stars} ${style.individual}`}
       src={EmptyStars}
       alt=""
-      style={{ width: '244px' }}
+      style={{ width: '74x' }}
     />
     <img
-      className="stars"
+      className={`${style.stars} ${style.individual}`}
       src={FilledStars}
       alt=""
       data-testid="rating-star"
-      style={{ width: `${rating * (244 / 5)}px` }}
+      style={{ width: `${rating * (74 / 5)}px` }}
     />
-  </div>
+  </span>
 );
 
 Stars.propTypes = {

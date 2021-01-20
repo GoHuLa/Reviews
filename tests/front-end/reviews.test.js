@@ -110,4 +110,10 @@ describe('<Stars />', () => {
     const star = getByTestId('rating-star');
     expect(star).toHaveStyle({ width: '195.2px' });
   });
+  test('uses CSS modules', () => {
+    const { getByTestId } = render(<Stars rating={4} />);
+    const star = getByTestId('rating-star');
+    expect(star).not.toHaveClass('star');
+    expect(star).not.toHaveClass('individual');
+  });
 });
