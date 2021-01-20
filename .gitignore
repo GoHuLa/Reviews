@@ -4,6 +4,6 @@
 /coverage
 
 # KEEP
-!/coverage/lcov-report/index.html
-!/coverage/lcov-report/base.css
-!/coverage/lcov-report/prettify.css
+!coverage/lcov-report/index.html
+!coverage/lcov-report/base.css
+!coverage/lcov-report/prettify.css
