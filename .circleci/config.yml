@@ -1,7 +1,6 @@
 version: '2.1'
 orbs:
   node: circleci/node@4.1.0
-  slack: circleci/slack@4.1
 jobs:
   test:
     docker:
@@ -9,16 +8,20 @@ jobs:
       - image: circleci/mongo:4.1.9
     steps:
       - checkout
+      # check cache if exists
+      - restore_cache:
+          key: node-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - node/install-packages
+      - save_cache:
+          key: node-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - package-lock.json
       - run:
           name: 'seed db'
           command: npm run seed
       - run:
           name: 'Run tests with npm'
           command: npm run test
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
   lint: 
     executor: node/default
     steps:
@@ -31,6 +34,5 @@ workflows:
   run-unit-tests:
     jobs:
       - lint
-      - test:
-          context: Slack
+      - test
           

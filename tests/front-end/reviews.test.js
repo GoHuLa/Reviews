@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event';
 import Products from '../../src/components/Products';
 import Reviews from '../../src/components/Reviews';
 import Review from '../../src/components/Review';
+import Stars from '../../src/components/Stars';
 
 const Controller = require('../../controllers');
 
@@ -60,10 +61,6 @@ describe('<Review />', () => {
     expect(getByText('Jon')).toBeTruthy();
     expect(getByText('Great product!')).toBeTruthy();
   });
-
-  test.skip('renders stars for the rating, with filled in stars proportional to the total', () => {
-
-  });
 });
 
 describe('<Reviews />', () => {
@@ -104,5 +101,13 @@ describe('<Reviews />', () => {
     const { findByTestId } = render(<Reviews prodId="1" />);
     const stars = await findByTestId('rating-stars');
     expect(stars).toHaveStyle({ width: '122px' });
+  });
+});
+
+describe('<Stars />', () => {
+  test('filled in stars are proportional in width to the rating', () => {
+    const { getByTestId } = render(<Stars rating={4} />);
+    const star = getByTestId('rating-star');
+    expect(star).toHaveStyle({ width: '195.2px' });
   });
 });

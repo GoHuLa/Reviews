@@ -9,8 +9,11 @@ const Review = ({ review }) => (
   <div className="review">
     <Media>
       <Media.Body>
-        <h5>{review.author.name}</h5>
-        <Stars rating={review.rating} />
+        <h5>
+          {review.author.name}
+          {' '}
+          <Stars rating={review.rating} />
+        </h5>
         <br />
         <small>{review.purchased ? 'bought' : 'didn\'t buy'}</small>
         <p>

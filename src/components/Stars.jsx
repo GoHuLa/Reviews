@@ -15,6 +15,7 @@ const Stars = ({ rating }) => (
       className="stars"
       src={FilledStars}
       alt=""
+      data-testid="rating-star"
       style={{ width: `${rating * (244 / 5)}px` }}
     />
   </div>

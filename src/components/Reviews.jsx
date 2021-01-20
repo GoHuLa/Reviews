@@ -31,31 +31,41 @@ const Reviews = (props) => {
   }, [reviews]);
 
   return (
-    <Container>
-      <h3>
-        {`${reviews.length} review${reviews.length > 1 ? 's' : ''}`}
-        <div className="stars">
-          <img
-            className="stars"
-            src={EmptyStars}
-            alt=""
-            style={{ width: '244px' }}
-          />
-          <img
-            className="stars"
-            src={FilledStars}
-            alt=""
-            data-testid="rating-stars"
-            style={{ width: `${avgRating * (244 / 5)}px` }}
-          />
-        </div>
-      </h3>
-      {reviews.map((review) => (
-        <Row key={review._id}>
-          <Review review={review} />
-        </Row>
-      ))}
-    </Container>
+    <>
+      {!reviews.length ? 'Loading...'
+        : (
+          <Container>
+            <h3>
+              {`${reviews.length} review${reviews.length > 1 ? 's' : ''}`}
+              <div className="stars">
+                <img
+                  className="stars"
+                  src={EmptyStars}
+                  alt=""
+                  style={{ width: '244px' }}
+                />
+                <img
+                  className="stars"
+                  src={FilledStars}
+                  alt=""
+                  data-testid="rating-stars"
+                  style={{ width: `${avgRating * (244 / 5)}px` }}
+                />
+              </div>
+            </h3>
+            <hr />
+            {reviews.map((review) => (
+              <>
+                <Row key={review._id}>
+                  <Review review={review} />
+                </Row>
+                <hr />
+              </>
+            ))}
+          </Container>
+        )}
+
+    </>
   );
 };
 
