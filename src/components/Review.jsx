@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
@@ -29,41 +29,56 @@ const moment = require('moment');
 // );
 
 const Review = ({ review }) => {
+  const [expanded, toggleExpand] = useState(false);
+
   const purchased = <small>Purchased item</small>;
 
   return (
 
     <div className="review">
-      <Row>
-        <Col>
-          <Row>
-            <h5>
-              <p>
-                <small>
-                  {review.author.name}
-                  {'   '}
-                  {moment(review.createdAt).format('MMM D, YYYY')}
-                </small>
-              </p>
-            </h5>
-          </Row>
-          <Row>
-            <Stars rating={review.rating} />
-          </Row>
-        </Col>
+      <Col>
         <Row>
-          <Col md={8}>
-            <p>
-              {review.body}
-            </p>
-            <br />
-            {(review.purchased || review.photo) && purchased}
-          </Col>
-          <Col>
-            {review.photo ? <Image src={review.photo} rounded /> : <></>}
-          </Col>
+          <Row>
+            <Col>
+              <Row>
+                <h5>
+                  <p>
+                    <small>
+                      {review.author.name}
+                      {'   '}
+                      {moment(review.createdAt).format('MMM D, YYYY')}
+                    </small>
+                  </p>
+                </h5>
+              </Row>
+              <Row>
+                <Stars rating={review.rating} />
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={8}>
+              <div>
+                {expanded ? review.body : `${review.body.substring(0, 144)}...`}
+              </div>
+              {!expanded && (
+              <Badge
+                onClick={() => toggleExpand(true)}
+                pill
+                variant="secondary"
+              >
+                ...
+              </Badge>
+              )}
+              <br />
+              {(review.purchased || review.photo) && purchased}
+            </Col>
+            <Col>
+              {review.photo ? <Image src={review.photo} rounded /> : <></>}
+            </Col>
+          </Row>
         </Row>
-      </Row>
+      </Col>
     </div>
   );
 };
