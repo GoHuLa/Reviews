@@ -26,7 +26,13 @@ jobs:
     executor: node/default
     steps:
       - checkout
+      - restore_cache:
+          key: node-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - node/install-packages
+      - save_cache:
+          key: node-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - package-lock.json
       - run:
           name: 'linting'
           command: npm run lint
