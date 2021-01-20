@@ -31,3 +31,8 @@ ul {
 span {
   margin-bottom: 1rem;
 }
+
+small {
+  font-size: 0.7rem;
+  color: gray;
+}
