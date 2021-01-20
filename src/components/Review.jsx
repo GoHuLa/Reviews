@@ -7,6 +7,7 @@ import Badge from 'react-bootstrap/Badge';
 import Collapse from 'react-bootstrap/Collapse';
 
 import Stars from './Stars';
+import style from './review.module.css';
 
 const moment = require('moment');
 
@@ -46,7 +47,7 @@ const Review = ({ review }) => {
                   <p>
                     <small>
                       {review.author.name}
-                      {'   '}
+                      <span className={style.spacer} />
                       {moment(review.createdAt).format('MMM D, YYYY')}
                     </small>
                   </p>
@@ -65,6 +66,7 @@ const Review = ({ review }) => {
                     {`${review.body.substring(0, 250)}`}
                     {!expanded && (
                     <Badge
+                      style={{ cursor: 'pointer' }}
                       onClick={() => toggleExpand(true)}
                       pill
                       variant="light"
