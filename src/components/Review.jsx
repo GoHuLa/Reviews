@@ -4,6 +4,7 @@ import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Badge from 'react-bootstrap/Badge';
+import Collapse from 'react-bootstrap/Collapse';
 
 import Stars from './Stars';
 
@@ -58,18 +59,27 @@ const Review = ({ review }) => {
           </Row>
           <Row>
             <Col md={8}>
-              <div>
-                {expanded ? review.body : `${review.body.substring(0, 144)}...`}
-              </div>
-              {!expanded && (
-              <Badge
-                onClick={() => toggleExpand(true)}
-                pill
-                variant="secondary"
-              >
-                ...
-              </Badge>
-              )}
+              {review.body.length < 250 ? review.body
+                : (
+                  <div>
+                    {`${review.body.substring(0, 250)}`}
+                    {!expanded && (
+                    <Badge
+                      onClick={() => toggleExpand(true)}
+                      pill
+                      variant="light"
+                    >
+                      <b>...</b>
+                    </Badge>
+                    )}
+                    <Collapse in={expanded}>
+                      <span>
+                        {review.body.substring(250)}
+                      </span>
+
+                    </Collapse>
+                  </div>
+                )}
               <br />
               {(review.purchased || review.photo) && purchased}
             </Col>
