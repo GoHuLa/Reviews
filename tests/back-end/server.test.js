@@ -44,6 +44,10 @@ const schemaProps = Object.getOwnPropertyNames(blankSchema);
 
 describe('endpoint tests', () => {
   describe('GETs', () => {
+    test('if no ID specified, returns all reviews', async () => {
+      const res = await request.get('/api/reviews');
+      expect(res.body).toHaveLength(100);
+    });
     test('should receive empty array no products found', async () => {
       const res = await reqAtId(200);
       expect(res.body).toEqual(expect.any(Array));
