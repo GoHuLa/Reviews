@@ -3,6 +3,7 @@
  * @test-environment jsdom
  */
 import 'jsdom-global/register';
+import '@testing-library/jest-dom';
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -57,9 +58,11 @@ describe('<Review />', () => {
     const { queryByRole, getByText } = render(<Review review={mockReview} />);
     expect(queryByRole('heading')).toBeTruthy();
     expect(getByText('Jon')).toBeTruthy();
-    expect(getByText('5')).toBeTruthy();
     expect(getByText('Great product!')).toBeTruthy();
-    expect(queryByRole('img')).toBeTruthy();
+  });
+
+  test.skip('renders stars for the rating, with filled in stars proportional to the total', () => {
+
   });
 });
 
@@ -78,8 +81,12 @@ describe('<Reviews />', () => {
       photo: 'sampleWebpage.com/100.jpg',
     };
     controllerSpy.mockResolvedValue([
-      { ...mockReview, _id: 1, prodId: '1' },
-      { ...mockReview, _id: 2, prodId: '1' }]);
+      {
+        ...mockReview, _id: 1, prodId: '1', rating: 5,
+      },
+      {
+        ...mockReview, _id: 2, prodId: '1', rating: 0,
+      }]);
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -92,5 +99,10 @@ describe('<Reviews />', () => {
     const { findAllByText } = render(<Reviews prodId="1" />);
     const reviews = await findAllByText('Jon');
     expect(reviews).toHaveLength(2);
+  });
+  test('renders stars proportional to the average rating', async () => {
+    const { findByTestId } = render(<Reviews prodId="1" />);
+    const stars = await findByTestId('rating-stars');
+    expect(stars).toHaveStyle({ width: '122px' });
   });
 });

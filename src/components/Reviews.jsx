@@ -45,6 +45,7 @@ const Reviews = (props) => {
             className="stars"
             src={FilledStars}
             alt=""
+            data-testid="rating-stars"
             style={{ width: `${avgRating * (244 / 5)}px` }}
           />
         </div>
