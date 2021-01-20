@@ -12,6 +12,12 @@ const getReview = (prodId) => (
     .catch((err) => err)
 );
 
+const getAll = () => (
+  axios.get('/api/reviews')
+    .then(({ data }) => data)
+);
+
 module.exports = {
   getReview,
+  getAll,
 };
