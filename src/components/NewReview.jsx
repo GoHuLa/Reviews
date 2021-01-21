@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from 'react-bootstrap/Collapse';
@@ -22,7 +24,7 @@ const NewReview = ({ change, prodId }) => {
   useEffect(() => {
     console.log({
       author: { name: author }, rating: xOffset, body, purchased, prodId,
-    })
+    });
     if (submitted) {
       axios.post('/api/reviews', {
         author: { name: author }, rating: xOffset, body, purchased, prodId,
@@ -82,9 +84,9 @@ const NewReview = ({ change, prodId }) => {
           </Form.Group>
           <Form.Group>
             <Form.Label>Your rating</Form.Label>
-            <div onMouseMove={(e) => _onMouseMove(e)} onClick={() => toggleTracking(false)}>
+            <span onMouseMove={(e) => _onMouseMove(e)} onClick={() => toggleTracking(false)}>
               <Stars rating={xOffset} />
-            </div>
+            </span>
           </Form.Group>
           <Form.Group controlId="reviewBody">
             <Form.Label>Your review</Form.Label>
@@ -97,7 +99,9 @@ const NewReview = ({ change, prodId }) => {
               </small>
             </Form.Text>
           </Form.Group>
-          <Form.Check type="checkbox" label="I bought this product" value={purchased} onChange={() => setPurchased(!purchased)} />
+          <Form.Group>
+            <Form.Check type="checkbox" label="I bought this product" value={purchased} onChange={() => setPurchased(!purchased)} />
+          </Form.Group>
           <Button
             variant={submitted ? 'secondary' : 'outline-primary'}
             type="submit"
