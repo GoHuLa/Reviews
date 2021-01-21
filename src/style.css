@@ -1,4 +1,8 @@
 
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
 img {
   grid-area: 1 / 2 / 4;
   width: 171px;
@@ -49,4 +53,8 @@ small {
   font-family: auto;
   font-weight: 800;
   margin-left: 0.6em;
+}
+
+button {
+  font-family: 'Roboto', sans-serif;
 }

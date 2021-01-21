@@ -61,7 +61,7 @@ const NewReview = ({ change, prodId }) => {
           data-testid="toggle-form"
           // eslint-disable-next-line no-nested-ternary
           variant={show ? (submitted ? 'success' : 'danger') : 'primary'}
-          style={{ borderRadius: `${show ? '100%' : ''}` }}
+          style={{ borderRadius: `${(show && !submitted) ? '100%' : ''}` }}
           size={show ? 'sm' : 'md'}
           className={style.show}
           type="button"

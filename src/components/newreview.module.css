@@ -6,7 +6,7 @@
 .form {
   right: 1em;
   top: 1em;
-  position: sticky;
+  position: fixed;
   z-index: 3;
   float: right;
 }
