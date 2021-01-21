@@ -1,3 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
@@ -12,60 +16,39 @@ import style from './review.module.css';
 
 const moment = require('moment');
 
-// const Review = ({ review }) => (
-//   <div className="review">
-//     <Media as="li">
-//       <Media.Body>
-//         <h5>
-//           <p>{review.author.name}</p>
-//           <Stars rating={review.rating} />
-//         </h5>
-//         <br />
-//         <small>{review.purchased ? 'bought' : 'didn\'t buy'}</small>
-//         <p>
-//           {review.body}
-//         </p>
-//       </Media.Body>
-//       {review.photo ? <Image src={review.photo} rounded /> : <></>}
-//     </Media>
-//   </div>
-// );
-
-const Review = ({ review }) => {
+const Review = ({ review, report }) => {
   const [expanded, toggleExpand] = useState(false);
 
   const purchased = <small>Purchased item</small>;
 
   return (
-
-    <div className="review">
+    <div className={style.review}>
       <Col>
         <Row>
-          <Row>
-            <Col>
-              <Row>
-                <h5>
-                  <p>
-                    <small>
-                      {review.author.name}
-                      <span className={style.spacer} />
-                      {moment(review.createdAt).format('MMM D, YYYY')}
-                    </small>
-                  </p>
-                </h5>
-              </Row>
-              <Row>
-                <Stars rating={review.rating} />
-              </Row>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={8}>
-              {review.body.length < 250 ? review.body
-                : (
-                  <div>
-                    {`${review.body.substring(0, 250)}`}
-                    {!expanded && (
+          <Col>
+            <Row>
+              <h5>
+                <p>
+                  <small>
+                    {review.author.name}
+                    <span className={style.spacer} />
+                    {moment(review.createdAt).format('MMM D, YYYY')}
+                  </small>
+                </p>
+              </h5>
+            </Row>
+            <Row>
+              <Stars rating={review.rating} />
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={8}>
+            {review.body.length < 250 ? review.body
+              : (
+                <div>
+                  {`${review.body.substring(0, 250)}`}
+                  {!expanded && (
                     <Badge
                       style={{ cursor: 'pointer' }}
                       onClick={() => toggleExpand(true)}
@@ -74,22 +57,24 @@ const Review = ({ review }) => {
                     >
                       <b>...</b>
                     </Badge>
-                    )}
-                    <Collapse in={expanded}>
-                      <span>
-                        {review.body.substring(250)}
-                      </span>
+                  )}
+                  <Collapse in={expanded}>
+                    <span>
+                      {review.body.substring(250)}
+                    </span>
 
-                    </Collapse>
-                  </div>
-                )}
-              <br />
-              {(review.purchased || review.photo) && purchased}
-            </Col>
-            <Col>
-              {review.photo ? <Image src={review.photo} rounded /> : <></>}
-            </Col>
-          </Row>
+                  </Collapse>
+                </div>
+              )}
+            <br />
+            {(review.purchased || review.photo) && purchased}
+          </Col>
+          <Col>
+            {review.photo ? <Image src={review.photo} rounded /> : <></>}
+          </Col>
+        </Row>
+        <Row className={style.report}>
+          <small className={style.report} onClick={() => report(review._id)}>report</small>
         </Row>
       </Col>
     </div>
@@ -107,7 +92,9 @@ Review.propTypes = {
     body: PropTypes.string.isRequired,
     photo: PropTypes.string,
     createdAt: PropTypes.string,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
+  report: PropTypes.func.isRequired,
 };
 
 export default Review;

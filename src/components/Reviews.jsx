@@ -10,11 +10,20 @@ import Review from './Review';
 /* CSS */
 import style from './stars.module.css';
 
+const axios = require('axios');
 const Controller = require('../../controllers');
 
 const Reviews = (props) => {
   const [reviews, setReviews] = React.useState([]);
   const [avgRating, setAvgRating] = React.useState(5);
+  const [removedElement, setRemovedElement] = React.useState(false);
+
+  const report = (id) => {
+    axios.delete(`/api/reviews/${id}`)
+      .then(() => setReviews(reviews.filter((r) => r._id !== id)))
+      .then(() => setRemovedElement(true));
+  };
+
   React.useEffect(() => {
     (async () => {
       try {
@@ -24,7 +33,8 @@ const Reviews = (props) => {
         setReviews([]);
       }
     })();
-  }, [props]);
+    return () => setRemovedElement(false);
+  }, [props, removedElement]);
 
   React.useEffect(() => {
     if (!reviews.length) { return; }
@@ -58,7 +68,7 @@ const Reviews = (props) => {
             <hr />
             {reviews.map((review) => (
               <>
-                <Review review={review} />
+                <Review report={report} review={review} />
                 <hr />
               </>
             ))}

@@ -30,6 +30,7 @@ app.get('/api/reviews/:id', async (req, res) => {
 app.post('/api/reviews', async (req, res) => {
   try {
     let review = new Reviews(req.body);
+    console.log(review);
     review = await review.save();
     res.status(201).send(review);
   } catch (err) {
