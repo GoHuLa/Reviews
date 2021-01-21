@@ -3,6 +3,7 @@ img {
   grid-area: 1 / 2 / 4;
   width: 171px;
   height: 180px;
+  object-fit: cover;
 }
 
 h3 {

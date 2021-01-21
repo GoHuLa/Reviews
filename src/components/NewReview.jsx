@@ -22,9 +22,6 @@ const NewReview = ({ change, prodId }) => {
   const [purchased, setPurchased] = useState(false);
 
   useEffect(() => {
-    console.log({
-      author: { name: author }, rating: xOffset, body, purchased, prodId,
-    });
     if (submitted) {
       axios.post('/api/reviews', {
         author: { name: author }, rating: xOffset, body, purchased, prodId,
@@ -61,9 +58,11 @@ const NewReview = ({ change, prodId }) => {
       <div className={style.form}>
 
         <Button
+          data-testid="toggle-form"
           // eslint-disable-next-line no-nested-ternary
           variant={show ? (submitted ? 'success' : 'danger') : 'primary'}
-          size="md"
+          style={{ borderRadius: `${show ? '100%' : ''}` }}
+          size={show ? 'sm' : 'md'}
           className={style.show}
           type="button"
           onClick={() => {
@@ -72,25 +71,25 @@ const NewReview = ({ change, prodId }) => {
           }}
         >
           {/* eslint-disable-next-line no-nested-ternary */}
-          {show ? (submitted ? 'done' : 'cancel') : 'write a review'}
+          {show ? (submitted ? 'done' : 'X') : 'write a review'}
         </Button>
       </div>
       <Collapse className={style.collapsible} in={show}>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form data-testid="new" noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group controlId="authorName">
             <Form.Label>Name</Form.Label>
-            <Form.Control disabled={submitted} required type="name" value={author} onChange={(e) => setAuthor(e.target.value)} />
+            <Form.Control data-testid="name" disabled={submitted} required type="name" value={author} onChange={(e) => setAuthor(e.target.value)} />
             <Form.Control.Feedback type="invalid">Please provide a name</Form.Control.Feedback>
           </Form.Group>
           <Form.Group>
             <Form.Label>Your rating</Form.Label>
-            <span onMouseMove={(e) => _onMouseMove(e)} onClick={() => toggleTracking(false)}>
+            <span data-testid="mouse-stars" onMouseMove={(e) => _onMouseMove(e)} onClick={() => toggleTracking(false)}>
               <Stars rating={xOffset} />
             </span>
           </Form.Group>
           <Form.Group controlId="reviewBody">
             <Form.Label>Your review</Form.Label>
-            <Form.Control required disabled={submitted} as="textarea" rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
+            <Form.Control data-testid="body" required disabled={submitted} as="textarea" rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
             <Form.Control.Feedback type="invalid">Review body can&#39;t be empty</Form.Control.Feedback>
             <Form.Text>
               <small>
@@ -103,6 +102,7 @@ const NewReview = ({ change, prodId }) => {
             <Form.Check type="checkbox" label="I bought this product" value={purchased} onChange={() => setPurchased(!purchased)} />
           </Form.Group>
           <Button
+            data-testid="submit"
             variant={submitted ? 'secondary' : 'outline-primary'}
             type="submit"
             size="sm"

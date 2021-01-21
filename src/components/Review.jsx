@@ -22,28 +22,34 @@ const Review = ({ review, report }) => {
   const purchased = <small>Purchased item</small>;
 
   return (
-    <div className={style.review}>
+    <div data-testid="review" className={style.review}>
       <Col>
         <Row>
           <Col>
             <Row>
-              <h5>
-                <p>
-                  <small>
-                    {review.author.name}
-                    <span className={style.spacer} />
-                    {moment(review.createdAt).format('MMM D, YYYY')}
-                  </small>
-                </p>
-              </h5>
-            </Row>
-            <Row>
-              <Stars rating={review.rating} />
+              <Col style={{ maxWidth: 'fit-content' }}>
+                <Image className={style.icon} src={review.author.photo} roundedCircle />
+              </Col>
+
+              <Col>
+                <h5>
+                  <p>
+                    <small>
+                      {review.author.name}
+                      <span className={style.spacer} />
+                      {moment(review.createdAt).format('MMM D, YYYY')}
+                    </small>
+                  </p>
+                </h5>
+                <Row>
+                  <Stars rating={review.rating} />
+                </Row>
+              </Col>
             </Row>
           </Col>
         </Row>
         <Row>
-          <Col md={8}>
+          <Col>
             {review.body.length < 250 ? review.body
               : (
                 <div>
@@ -69,12 +75,14 @@ const Review = ({ review, report }) => {
             <br />
             {(review.purchased || review.photo) && purchased}
           </Col>
-          <Col>
-            {review.photo ? <Image src={review.photo} rounded /> : <></>}
+          <Col md="auto">
+
+            <Row>{review.photo ? <Image src={review.photo} rounded /> : <></>}</Row>
+
           </Col>
         </Row>
         <Row className={style.report}>
-          <small className={style.report} onClick={() => report(review._id)}>report</small>
+          <small data-testid="report" className={style.report} onClick={() => report(review._id)}>report</small>
         </Row>
       </Col>
     </div>
