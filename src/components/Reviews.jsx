@@ -2,14 +2,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 
+import FilledStars from '../assets/filled-stars.png';
+import EmptyStars from '../assets/empty-stars.png';
 import Review from './Review';
 
+/* CSS */
+import style from './stars.module.css';
+
+const axios = require('axios');
 const Controller = require('../../controllers');
 
 const Reviews = (props) => {
   const [reviews, setReviews] = React.useState([]);
+  const [avgRating, setAvgRating] = React.useState(5);
+  const [removedElement, setRemovedElement] = React.useState(false);
+
+  const report = (id) => {
+    axios.delete(`/api/reviews/${id}`)
+      .then(() => setReviews(reviews.filter((r) => r._id !== id)))
+      .then(() => setRemovedElement(true));
+  };
+
   React.useEffect(() => {
     (async () => {
       try {
@@ -19,16 +33,49 @@ const Reviews = (props) => {
         setReviews([]);
       }
     })();
-  }, [props]);
+    return () => setRemovedElement(false);
+  }, [props, removedElement]);
+
+  React.useEffect(() => {
+    if (!reviews.length) { return; }
+    const avg = reviews.reduce((m, i) => m + i.rating, 0) / reviews.length;
+    setAvgRating(avg);
+  }, [reviews]);
 
   return (
-    <Container>
-      {reviews.map((review) => (
-        <Row key={review._id}>
-          <Review review={review} />
-        </Row>
-      ))}
-    </Container>
+    <>
+      {!reviews.length ? 'Loading...'
+        : (
+          <Container>
+            <h3 data-testid="review-count">
+              {`${reviews.length} review${reviews.length > 1 ? 's' : ''}`}
+              <div className={style.stars}>
+                <img
+                  className={style.stars}
+                  src={EmptyStars}
+                  alt=""
+                  style={{ width: '244px' }}
+                />
+                <img
+                  className={style.stars}
+                  src={FilledStars}
+                  alt=""
+                  data-testid="rating-stars"
+                  style={{ width: `${avgRating * (244 / 5)}px` }}
+                />
+              </div>
+            </h3>
+            <hr />
+            {reviews.map((review) => (
+              <>
+                <Review report={report} review={review} />
+                <hr />
+              </>
+            ))}
+            {/* <Row>{photoArray.length ? photos : <></>}</Row> */}
+          </Container>
+        )}
+    </>
   );
 };
 

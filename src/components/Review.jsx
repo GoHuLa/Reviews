@@ -1,24 +1,93 @@
-import React from 'react';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'react-bootstrap/Image';
-import Media from 'react-bootstrap/Media';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Badge from 'react-bootstrap/Badge';
+import Collapse from 'react-bootstrap/Collapse';
 
-const Review = ({ review }) => (
-  <div className="review">
-    <Media>
-      <Media.Body>
-        <h5>{review.author.name}</h5>
-        {review.rating}
-        <br />
-        <small>{review.purchased ? 'bought' : 'didn\'t buy'}</small>
-        <p>
-          {review.body}
-        </p>
-      </Media.Body>
-      {review.photo ? <Image src={review.photo} rounded /> : <></>}
-    </Media>
-  </div>
-);
+import Stars from './Stars';
+
+import style from './review.module.css';
+
+const moment = require('moment');
+
+const Review = ({ review, report }) => {
+  const [expanded, toggleExpand] = useState(false);
+
+  const purchased = <small>Purchased item</small>;
+
+  return (
+    <div data-testid="review" className={style.review}>
+      <Col>
+        <Row>
+          <Col>
+            <Row>
+              <Col style={{ maxWidth: 'fit-content' }}>
+                <Image className={style.icon} src={review.author.photo} roundedCircle />
+              </Col>
+
+              <Col>
+                <h5>
+                  <p>
+                    <small>
+                      {review.author.name}
+                      <span className={style.spacer} />
+                      {moment(review.createdAt).format('MMM D, YYYY')}
+                    </small>
+                  </p>
+                </h5>
+                <Row>
+                  <Stars rating={review.rating} />
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {review.body.length < 250 ? review.body
+              : (
+                <div>
+                  {`${review.body.substring(0, 250)}`}
+                  {!expanded && (
+                    <Badge
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => toggleExpand(true)}
+                      pill
+                      variant="light"
+                    >
+                      <b>...</b>
+                    </Badge>
+                  )}
+                  <Collapse in={expanded}>
+                    <span>
+                      {review.body.substring(250)}
+                    </span>
+
+                  </Collapse>
+                </div>
+              )}
+            <br />
+            {(review.purchased || review.photo) && purchased}
+          </Col>
+          <Col md="auto">
+
+            <Row>{review.photo ? <Image src={review.photo} rounded /> : <></>}</Row>
+
+          </Col>
+        </Row>
+        <Row className={style.report}>
+          <small data-testid="report" className={style.report} onClick={() => report(review._id)}>report</small>
+        </Row>
+      </Col>
+    </div>
+  );
+};
 
 Review.propTypes = {
   review: PropTypes.shape({
@@ -30,7 +99,10 @@ Review.propTypes = {
     purchased: PropTypes.bool.isRequired,
     body: PropTypes.string.isRequired,
     photo: PropTypes.string,
+    createdAt: PropTypes.string,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
+  report: PropTypes.func.isRequired,
 };
 
 export default Review;
