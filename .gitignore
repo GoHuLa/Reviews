@@ -2,6 +2,7 @@
 /node_modules
 */assets
 /coverage*
+.env
 
 # KEEP
 !coverage/lcov-report/index.html

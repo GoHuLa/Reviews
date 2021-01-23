@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Reviews, Products } = require('../../db/mongoose.js');
 
 beforeAll(async () => {
-  await mongoose.connect('mongodb://localhost/etsy');
+  await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/etsy');
 });
 afterAll(() => mongoose.disconnect());
 
@@ -52,3 +52,4 @@ describe('review collection', () => {
     expect(review.length).toBeGreaterThan(0);
   });
 });
+

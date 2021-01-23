@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fec
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      fec: web
+  template:
+    metadata:
+      labels:
+        fec: web
+    spec:
+      containers:
+        - name: fec-reviews
+          image: jclasley/fec:latest
+          env: 
+            - name: MONGO_URL
+              value: 'mongodb://192.168.49.2:32463/etsy'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fec-entrypoint
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    fec: web
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fec-mongo
+  namespace: default
+spec:
+  selector:
+    fec: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fec-mongo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      fec: mongo
+  template:
+    metadata:
+      labels:
+        fec: mongo
+    spec:
+      volumes:
+        - name: mongo-storage
+          emptyDir: {}
+      containers:
+        - name: fec-mongo
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db

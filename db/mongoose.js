@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const icons = require('../src/assets/icons.js');
 
-mongoose.connect('mongodb://localhost/etsy', { useNewUrlParser: true });
+const url = 'mongodb://localhost:27017/etsy';
+
+mongoose.connect(process.env.MONGO_URL || url, { useNewUrlParser: true });
 const randomIndex = () => Math.floor(Math.random() * icons.length);
 
 const reviewSchema = new mongoose.Schema({
@@ -18,7 +20,7 @@ const reviewSchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema({
   prodId: String,
-  image: { type: String, default: 'https://picsum.photos/200' },
+  image: { type: String },
 });
 
 const Product = mongoose.model('Product', productSchema);
