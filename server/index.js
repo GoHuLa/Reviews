@@ -6,7 +6,6 @@ const cors = require('cors');
 const { Reviews } = require('../db/mongoose.js');
 
 const app = express();
-const url = `http://localhost:${process.env.PORT || 3000}`;
 
 app.use(bodyparser.json());
 app.use(cors());
