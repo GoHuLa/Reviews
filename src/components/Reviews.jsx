@@ -13,13 +13,15 @@ import style from './stars.module.css';
 const axios = require('axios');
 const Controller = require('../../controllers');
 
+const url = 'http://localhost:3001';
+
 const Reviews = (props) => {
   const [reviews, setReviews] = React.useState([]);
   const [avgRating, setAvgRating] = React.useState(5);
   const [removedElement, setRemovedElement] = React.useState(false);
 
   const report = (id) => {
-    axios.delete(`/api/reviews/${id}`)
+    axios.delete(`${url}/api/reviews/${id}`)
       .then(() => setReviews(reviews.filter((r) => r._id !== id)))
       .then(() => setRemovedElement(true));
   };

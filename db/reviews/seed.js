@@ -238,7 +238,8 @@ const reviews = names.reduce((m, i, n) => {
     purchased: randPurchased(),
     body: bodies[n],
     photo: maybePhoto(),
-    prodId: randProdId()
+    prodId: randProdId(),
+    createdAt: Date.now()
   };
   return m.concat([o])
 }, []);

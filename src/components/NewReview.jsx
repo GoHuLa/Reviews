@@ -11,6 +11,8 @@ import style from './newreview.module.css';
 
 const axios = require('axios');
 
+const url = `localhost:${process.env.PORT || 3000}`;
+
 const NewReview = ({ change, prodId }) => {
   const [author, setAuthor] = useState('');
   const [body, setBody] = useState('');
@@ -23,7 +25,7 @@ const NewReview = ({ change, prodId }) => {
 
   useEffect(() => {
     if (submitted) {
-      axios.post('/api/reviews', {
+      axios.post(`${url}/api/reviews`, {
         author: { name: author }, rating: xOffset, body, purchased, prodId,
       })
         .then(() => change(true));

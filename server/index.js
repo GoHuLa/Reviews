@@ -1,12 +1,15 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
-
-const app = express();
+const cors = require('cors');
 
 const { Reviews } = require('../db/mongoose.js');
 
+const app = express();
+const url = `http://localhost:${process.env.PORT || 3000}`;
+
 app.use(bodyparser.json());
+app.use(cors());
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.get('/api/reviews', async (req, res) => {
