@@ -1,7 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import { useParams } from 'react-router-dom';
 
 import FilledStars from '../assets/filled-stars.png';
 import EmptyStars from '../assets/empty-stars.png';
@@ -15,7 +17,7 @@ const Controller = require('../../controllers');
 
 const url = 'http://localhost:3001';
 
-const Reviews = (props) => {
+const Reviews = () => {
   const [reviews, setReviews] = React.useState([]);
   const [avgRating, setAvgRating] = React.useState(5);
   const [removedElement, setRemovedElement] = React.useState(false);
@@ -26,17 +28,19 @@ const Reviews = (props) => {
       .then(() => setRemovedElement(true));
   };
 
+  const { prodId } = useParams();
+
   React.useEffect(() => {
     (async () => {
       try {
-        const res = await Controller.getReview(props.prodId);
+        const res = await Controller.getReview(prodId);
         setReviews(res);
       } catch (err) {
         setReviews([]);
       }
     })();
     return () => setRemovedElement(false);
-  }, [props, removedElement]);
+  }, [prodId, removedElement]);
 
   React.useEffect(() => {
     if (!reviews.length) { return; }
@@ -46,7 +50,14 @@ const Reviews = (props) => {
 
   return (
     <>
-      {!reviews.length ? 'Loading...'
+      {!reviews.length
+        ? (
+          <Container>
+            <Row>
+              No reviews found. Be the first to write one!
+            </Row>
+          </Container>
+        )
         : (
           <Container>
             <h3 data-testid="review-count">
@@ -79,10 +90,6 @@ const Reviews = (props) => {
         )}
     </>
   );
-};
-
-Reviews.propTypes = {
-  prodId: PropTypes.string.isRequired,
 };
 
 export default Reviews;

@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import Collapse from 'react-bootstrap/Collapse';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -13,7 +14,7 @@ const axios = require('axios');
 
 const url = `localhost:${process.env.PORT || 3000}`;
 
-const NewReview = ({ change, prodId }) => {
+const NewReview = ({ change }) => {
   const [author, setAuthor] = useState('');
   const [body, setBody] = useState('');
   const [show, toggleShow] = useState(false);
@@ -22,6 +23,8 @@ const NewReview = ({ change, prodId }) => {
   const [xOffset, setXOffset] = useState(0);
   const [tracking, toggleTracking] = useState(true);
   const [purchased, setPurchased] = useState(false);
+
+  const { prodId } = useParams();
 
   useEffect(() => {
     if (submitted) {
@@ -120,7 +123,6 @@ const NewReview = ({ change, prodId }) => {
 
 NewReview.propTypes = {
   change: PropTypes.func.isRequired,
-  prodId: PropTypes.string.isRequired,
 };
 
 export default NewReview;

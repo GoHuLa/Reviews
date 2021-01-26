@@ -101,7 +101,7 @@ describe('<Reviews />', () => {
   });
 });
 
-describe('<Stars />', () => {
+describe.only('<Stars />', () => {
   test('filled in stars are proportional in width to the rating', () => {
     const { getByTestId } = render(<Stars rating={4} />);
     const star = getByTestId('rating-star');
