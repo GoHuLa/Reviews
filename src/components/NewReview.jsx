@@ -45,7 +45,7 @@ const NewReview = ({ change, prodId }) => {
 
   // eslint-disable-next-line no-underscore-dangle
   const _onMouseMove = (e) => {
-    if (tracking) setXOffset((Math.min(e.screenX, -464) + 464 + 73) * (5 / 73));
+    if (tracking) setXOffset((Math.min(e.screenX, -462) + 462 + 73) * (5 / 73));
   };
 
   const resetForm = () => {

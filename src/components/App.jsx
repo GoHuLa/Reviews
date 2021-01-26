@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import Reviews from './Reviews';
 import NewReview from './NewReview';
-import Products from './Products';
+import Controller from '../../controllers';
 
 import '../style.css';
 
 const App = () => {
-  const [prodId, setProdId] = React.useState('0');
+  const [products, setProducts] = React.useState([]);
+  useEffect(() => {
+    (async () => {
+      const prods = await Controller.getAll();
+      setProducts(prods);
+    })();
+  }, []);
+
   const [newReview, addNewReview] = React.useState(false);
   return (
-    <>
-      <Products change={setProdId} />
-      <NewReview change={addNewReview} prodId={prodId} />
-      <Reviews new={newReview} key={prodId} prodId={prodId} />
-    </>
+    <HashRouter>
+      <Switch>
+        {products.map((prod) => (
+          <Route path={`/${prod.prodId}`}>
+            <NewReview change={addNewReview} prodId={prod.prodId} />
+            <Reviews new={newReview} key={prod.prodId} prodId={prod.prodId} />
+          </Route>
+        ))}
+      </Switch>
+    </HashRouter>
   );
 };
 
