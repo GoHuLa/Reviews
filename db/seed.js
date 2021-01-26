@@ -1,7 +1,7 @@
 const { Seeder } = require('mongo-seeding');
 const path = require('path');
 
-const url = 'http://localhost:27017/etsy';
+const url = 'mongodb://localhost:27017/etsy';
 
 const config = {
   database: process.env.MONGO_URL || url,

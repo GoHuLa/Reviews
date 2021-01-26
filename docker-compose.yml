@@ -3,12 +3,8 @@ version: '3.7'
 services:
   reviews:
     image: jclasley/fec:latest
-    # command: npm run start
-    working_dir: /reviews
     ports:
       - 3001:3000
-    volumes:
-        - ./:/reviews
     environment:
       - MONGO_URL=mongodb://mongo:27017/etsy
       - PORT=3000
