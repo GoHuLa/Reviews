@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const { Reviews, Products } = require('../../db/mongoose.js');
 
 beforeAll(async () => {
-  await mongoose.connect('mongodb://localhost/etsy');
+  await mongoose.disconnect();
+  await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/etsy');
 });
 afterAll(() => mongoose.disconnect());
 

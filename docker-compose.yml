@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  reviews:
+    image: jclasley/fec:latest
+    ports:
+      - 3001:3000
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/etsy
+      - PORT=3000
+  products:
+    image: jwhunt19/product:latest
+    ports:
+      - 3002:3000
+    environment: 
+      - MONGO_URL=mongodb://mongo:27017/etsy
+      - PORT=3000
+  recommended:
+    image: pgonz18/recommended2021:latest
+    ports:
+      - 3003:3000
+    environment: 
+      - MONGO_URL=mongodb://mongo:27017/recommended
+      - PORT=3000
+  mongo:
+    image: mongo:latest
+    volumes:
+      - fec:/data/db
+    restart: always
+    ports: 
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: 'etsy'
+      
+
+volumes:
+  fec:

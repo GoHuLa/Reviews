@@ -44,6 +44,8 @@ small {
 }
 
 .row {
+  position: relative;
+  z-index: 1;
   font-family: 'Roboto', sans-serif;
   margin-left: 0;
 }
@@ -57,4 +59,14 @@ small {
 
 button {
   font-family: 'Roboto', sans-serif;
+}
+
+small {
+  position: relative;
+  z-index: 1;
+}
+
+.row > {
+  position: relative;
+  z-index: 1;
 }

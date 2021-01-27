@@ -1,8 +1,10 @@
 const axios = require('axios');
 const _ = require('lodash');
 
+const url = `http://localhost:${process.env.PORT || 3000}`;
+
 const getReview = (prodId) => (
-  axios.get(`/api/reviews/${prodId}`)
+  axios.get(`${url}/api/reviews/${prodId}`)
     .then(({ data }) => {
       if (_.isEmpty(data)) {
         throw new Error('no data found');
@@ -13,7 +15,7 @@ const getReview = (prodId) => (
 );
 
 const getAll = () => (
-  axios.get('/api/reviews')
+  axios.get(`${url}/api/reviews`)
     .then(({ data }) => data)
 );
 
