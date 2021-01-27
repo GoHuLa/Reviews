@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-// import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { useParams } from 'react-router-dom';
@@ -15,7 +14,7 @@ import style from './stars.module.css';
 const axios = require('axios');
 const Controller = require('../../controllers');
 
-const url = 'http://localhost:3001';
+const url = `http://localhost:${process.env.PORT || 3000}`;
 
 const Reviews = () => {
   const [reviews, setReviews] = React.useState([]);
@@ -27,7 +26,6 @@ const Reviews = () => {
       .then(() => setReviews(reviews.filter((r) => r._id !== id)))
       .then(() => setRemovedElement(true));
   };
-
   const { prodId } = useParams();
 
   React.useEffect(() => {

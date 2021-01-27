@@ -6,8 +6,8 @@ import 'jsdom-global/register';
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import { useParams } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-
 import Reviews from '../../src/components/Reviews';
 import Review from '../../src/components/Review';
 import Stars from '../../src/components/Stars';
@@ -19,6 +19,9 @@ jest.mock('axios');
 axios.post.mockResolvedValue('posted');
 
 const Controller = require('../../controllers');
+
+// HELPER FUNCTION FOR ROUTER
+// https://medium.com/@aarling/mocking-a-react-router-match-object-in-your-component-tests-fa95904dcc55
 
 describe('<Review />', () => {
   let mockReview;
@@ -52,6 +55,8 @@ describe('<Reviews />', () => {
   let controllerSpy;
   let mockReview;
   beforeEach(() => {
+    // useParams is mocked at ../../__mocks__/react-router-dom.js
+    useParams.mockReturnValue({ prodId: '1' });
     controllerSpy = jest.spyOn(Controller, 'getReview');
     mockReview = {
       author: {
@@ -73,12 +78,15 @@ describe('<Reviews />', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  test('mocks exist', () => {
+    expect(jest.isMockFunction(useParams)).toBeTruthy();
+  });
   test('calls Contoller.getReview on initialization', async () => {
-    render(<Reviews prodId="1" />);
+    render(<Reviews />);
     await waitFor(() => expect(controllerSpy).toHaveBeenCalled());
   });
   test('renders a review for each product returned by Controller.getReview', async () => {
-    const { findByTestId } = render(<Reviews prodId="1" />);
+    const { findByTestId } = render(<Reviews />);
     const reviews = await findByTestId('review-count');
     expect(reviews).toHaveTextContent('2 reviews');
   });
@@ -101,7 +109,7 @@ describe('<Reviews />', () => {
   });
 });
 
-describe.only('<Stars />', () => {
+describe('<Stars />', () => {
   test('filled in stars are proportional in width to the rating', () => {
     const { getByTestId } = render(<Stars rating={4} />);
     const star = getByTestId('rating-star');

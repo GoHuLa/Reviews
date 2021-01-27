@@ -7,8 +7,8 @@ const { Reviews } = require('../db/mongoose.js');
 
 const app = express();
 
-app.use(bodyparser.json());
 app.use(cors());
+app.use(bodyparser.json());
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.get('/api/reviews', async (req, res) => {

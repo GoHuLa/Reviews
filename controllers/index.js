@@ -1,7 +1,7 @@
 const axios = require('axios');
 const _ = require('lodash');
 
-const url = 'http://localhost:3001';
+const url = `http://localhost:${process.env.PORT || 3000}`;
 
 const getReview = (prodId) => (
   axios.get(`${url}/api/reviews/${prodId}`)
