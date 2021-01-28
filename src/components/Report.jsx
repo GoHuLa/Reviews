@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const Report = ({ show, id, onHide }) => {
-  const [reason, setReason] = useState('---------');
+  const [reason, setReason] = useState('Offensive language');
   const [existingReport, setExistingReports] = useState([]);
   useEffect(() => {
     setExistingReports(localStorage.getItem('reportedReviews') || []);
@@ -15,7 +15,7 @@ const Report = ({ show, id, onHide }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide} style={{ opacity: 1 }}>
+    <Modal data-testid="modal" show={show} onHide={onHide} style={{ opacity: 1 }}>
       <Modal.Header closeButton>
         <Modal.Title>Report form</Modal.Title>
       </Modal.Header>
@@ -34,6 +34,7 @@ const Report = ({ show, id, onHide }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button
+          data-testid="submit-report"
           type="primary"
           onClick={() => {
             handleSubmit();
