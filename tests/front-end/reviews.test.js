@@ -20,6 +20,13 @@ axios.post.mockResolvedValue('posted');
 
 const Controller = require('../../controllers');
 
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
 // HELPER FUNCTION FOR ROUTER
 // https://medium.com/@aarling/mocking-a-react-router-match-object-in-your-component-tests-fa95904dcc55
 
@@ -94,18 +101,6 @@ describe('<Reviews />', () => {
     const { findByTestId } = render(<Reviews prodId="1" />);
     const stars = await findByTestId('rating-stars');
     expect(stars).toHaveStyle({ width: '122px' });
-  });
-  test('clicking "report" triggers a re-render and removes the post', async () => {
-    const { findAllByTestId } = render(<Reviews prodId="1" />);
-    jest.mock('axios');
-    axios.delete.mockResolvedValue('deleted');
-    controllerSpy.mockResolvedValue([{
-      ...mockReview, _id: '1', prodId: '1', rating: 5,
-    }]);
-
-    const report = await findAllByTestId('report');
-    userEvent.click(report[0]);
-    await waitFor(async () => expect(await findAllByTestId('review')).toHaveLength(1));
   });
 });
 

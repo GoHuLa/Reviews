@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -60,11 +60,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  plugins: [
-    // fix "process is not defined" error:
-    // (do "npm install process" before running the build)
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-    }),
-  ],
+  // plugins: [
+  //   // fix "process is not defined" error:
+  //   // (do "npm install process" before running the build)
+  //   new webpack.ProvidePlugin({
+  //     process: 'process/browser',
+  //   }),
+  // ],
 };

@@ -7,26 +7,31 @@ import { useParams } from 'react-router-dom';
 import FilledStars from '../assets/filled-stars.png';
 import EmptyStars from '../assets/empty-stars.png';
 import Review from './Review';
+import Report from './Report';
 
 /* CSS */
 import style from './stars.module.css';
 
-const axios = require('axios');
 const Controller = require('../../controllers');
-
-const url = `http://localhost:${process.env.PORT || 3000}`;
 
 const Reviews = () => {
   const [reviews, setReviews] = React.useState([]);
   const [avgRating, setAvgRating] = React.useState(5);
   const [removedElement, setRemovedElement] = React.useState(false);
+  const [reported, setReported] = React.useState([false, '0']);
+  const [reportedReviews, setReportedReviews] = React.useState([]);
 
   const report = (id) => {
-    axios.delete(`${url}/api/reviews/${id}`)
-      .then(() => setReviews(reviews.filter((r) => r._id !== id)))
-      .then(() => setRemovedElement(true));
+    // axios.delete(`${url}/api/reviews/${id}`)
+    //   .then(() => setReviews(reviews.filter((r) => r._id !== id)))
+    //   .then(() => setRemovedElement(true));
+    setReported([true, id]);
   };
   const { prodId } = useParams();
+
+  React.useEffect(() => {
+    setReportedReviews(localStorage.getItem('reportedReviews'));
+  }, [reported]);
 
   React.useEffect(() => {
     (async () => {
@@ -77,15 +82,29 @@ const Reviews = () => {
               </div>
             </h3>
             <hr />
-            {reviews.map((review) => (
-              <>
-                <Review report={report} review={review} />
-                <hr />
-              </>
-            ))}
+            {reviews.map((review) => {
+              if (reportedReviews && reportedReviews.split(',').indexOf(review._id) !== -1) {
+                return (
+                  <>
+                    <Row>
+                      <small>Not showing a reported review</small>
+                    </Row>
+                    <hr />
+                  </>
+                );
+              }
+              return (
+                <>
+                  <Review report={report} review={review} />
+                  <hr />
+                </>
+              );
+            })}
             {/* <Row>{photoArray.length ? photos : <></>}</Row> */}
           </Container>
         )}
+      {reported[0]
+      && <Report show={reported[0]} id={reported[1]} onHide={() => setReported([false, 0])} />}
     </>
   );
 };
