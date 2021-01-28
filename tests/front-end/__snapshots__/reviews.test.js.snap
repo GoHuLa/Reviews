@@ -61,7 +61,7 @@ exports[`<NewReview /> moving the mouse over the stars changes the width 1`] = `
             class="undefined undefined"
             data-testid="rating-star"
             src=""
-            style="width: 74px;"
+            style="width: 0px;"
           />
         </span>
       </span>
