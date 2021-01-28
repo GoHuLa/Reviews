@@ -37,6 +37,7 @@ const Report = ({ show, id, onHide }) => {
           type="primary"
           onClick={() => {
             handleSubmit();
+            // eslint-disable-next-line no-alert
             alert('You will no longer see this review, our team is taking a look at it!');
             onHide();
           }}
