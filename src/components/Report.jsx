@@ -10,7 +10,8 @@ const Report = ({ show, id, onHide }) => {
   }, []);
 
   const handleSubmit = () => {
-    localStorage.setItem('reportedReviews', [...existingReport, id]);
+    const splitReports = existingReport.length ? [...existingReport.split(','), id] : [id];
+    localStorage.setItem('reportedReviews', splitReports);
   };
 
   return (
@@ -36,6 +37,7 @@ const Report = ({ show, id, onHide }) => {
           type="primary"
           onClick={() => {
             handleSubmit();
+            alert('You will no longer see this review, our team is taking a look at it!');
             onHide();
           }}
         >

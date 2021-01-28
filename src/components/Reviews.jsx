@@ -83,8 +83,15 @@ const Reviews = () => {
             </h3>
             <hr />
             {reviews.map((review) => {
-              if (reportedReviews && reportedReviews.indexOf(review._id) !== -1) {
-                return <></>;
+              if (reportedReviews && reportedReviews.split(',').indexOf(review._id) !== -1) {
+                return (
+                  <>
+                    <Row>
+                      <small>Not showing a reported review</small>
+                    </Row>
+                    <hr />
+                  </>
+                );
               }
               return (
                 <>
