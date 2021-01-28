@@ -10,7 +10,7 @@
     "test:w": "jest --collectCoverage --watch",
     "seed": "node ./db/seed.js",
     "start": "node server/start.js",
-    "start:dev": "nodemon server/start.js",
+    "start:dev": "LOCAL='localhost' PORT=3001 node server/start.js",
     "build": "webpack -w"
   },
   "author": "",
