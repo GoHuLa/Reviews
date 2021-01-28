@@ -10,7 +10,7 @@ const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
 // const webpack = require('webpack');
 
 module.exports = {
-  mode: 'production',
+  mode: `${process.env.MODE}`,
   entry: path.resolve(__dirname, 'src/index.jsx'),
   output: {
     filename: 'bundle.js',

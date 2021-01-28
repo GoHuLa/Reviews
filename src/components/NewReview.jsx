@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import Collapse from 'react-bootstrap/Collapse';
@@ -46,9 +46,14 @@ const NewReview = ({ change }) => {
     setValidated(true);
   };
 
+  const starRef = useRef(null);
   // eslint-disable-next-line no-underscore-dangle
   const _onMouseMove = (e) => {
-    if (tracking) setXOffset((Math.min(e.screenX, -462) + 462 + 73) * (5 / 73));
+    if (tracking) {
+      setXOffset((Math.min(e.clientX, (starRef.current.x + starRef.current.width))
+        - starRef.current.x)
+        * (5 / starRef.current.width));
+    }
   };
 
   const resetForm = () => {
@@ -89,7 +94,7 @@ const NewReview = ({ change }) => {
           <Form.Group>
             <Form.Label>Your rating</Form.Label>
             <span data-testid="mouse-stars" onMouseMove={(e) => _onMouseMove(e)} onClick={() => toggleTracking(false)}>
-              <Stars rating={xOffset} />
+              <Stars ref={starRef} rating={xOffset} />
             </span>
           </Form.Group>
           <Form.Group controlId="reviewBody">

@@ -10,8 +10,9 @@
     "test:w": "jest --collectCoverage --watch",
     "seed": "node ./db/seed.js",
     "start": "node server/start.js",
-    "start:dev": "LOCAL='localhost' PORT=3001 node server/start.js",
-    "build": "webpack -w"
+    "start:dev": "PORT=3001 nodemon server/start.js",
+    "build:dev": "MODE=development webpack -w",
+    "build": "MODE=production webpack"
   },
   "author": "",
   "license": "ISC",
