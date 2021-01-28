@@ -70,7 +70,7 @@ const NewReview = ({ change }) => {
         <Button
           data-testid="toggle-form"
           // eslint-disable-next-line no-nested-ternary
-          variant={show ? (submitted ? 'success' : 'danger') : 'primary'}
+          variant={show ? (submitted ? 'success' : 'danger') : 'secondary'}
           style={{ borderRadius: `${(show && !submitted) ? '100%' : ''}` }}
           size={show ? 'sm' : 'md'}
           className={style.show}

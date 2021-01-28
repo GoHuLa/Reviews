@@ -197,11 +197,10 @@ describe('<Report />', () => {
     expect(jest.isMockFunction(global.localStorage.getItem)).toBeTruthy();
     expect(global.localStorage.getItem).toHaveBeenCalledWith('reportedReviews');
   });
-  test('clicking "submit" adds the item\'s _id to localStorage and calls "onHide"', () => {
+  test('clicking "submit" adds the item\'s _id to localStorage', () => {
     const hide = jest.fn();
     const { getByTestId } = render(<Report show id="1" onHide={hide} />);
     userEvent.click(getByTestId('submit-report'));
     expect(global.localStorage.setItem).toHaveBeenCalledWith('reportedReviews', ['1']);
-    expect(hide).toHaveBeenCalled();
   });
 });

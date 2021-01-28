@@ -5,6 +5,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 const Report = ({ show, id, onHide }) => {
   const [reason, setReason] = useState('Offensive language');
   const [existingReport, setExistingReports] = useState([]);
+  const [reported, setReported] = useState(false);
   useEffect(() => {
     setExistingReports(localStorage.getItem('reportedReviews') || []);
   }, []);
@@ -20,30 +21,38 @@ const Report = ({ show, id, onHide }) => {
         <Modal.Title>Report form</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group controlId="authorName">
-            <Form.Label>Reason for report</Form.Label>
-            <Form.Control as="select" required type="name" value={reason} onChange={(e) => setReason(e.target.value)}>
-              <option>Offensive language</option>
-              <option>Inappropriate picture</option>
-              <option>Harassment</option>
-            </Form.Control>
-            <Form.Control.Feedback type="invalid">Please select a reason</Form.Control.Feedback>
-          </Form.Group>
-        </Form>
+        { !reported ? (
+          <Form noValidate onSubmit={handleSubmit}>
+            <Form.Group controlId="authorName">
+              <Form.Label>Reason for report</Form.Label>
+              <Form.Control as="select" required type="name" value={reason} onChange={(e) => setReason(e.target.value)}>
+                <option>Offensive language</option>
+                <option>Inappropriate picture</option>
+                <option>Harassment</option>
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">Please select a reason</Form.Control.Feedback>
+            </Form.Group>
+          </Form>
+        )
+          : (
+            <p>
+              Thank you for submitting your report.
+              It will be hidden for you, and our team is taking a look at it!
+            </p>
+          )}
       </Modal.Body>
       <Modal.Footer>
         <Button
           data-testid="submit-report"
-          type="primary"
+          variant={!reported ? 'primary' : 'success'}
+          disabled={reported}
           onClick={() => {
             handleSubmit();
             // eslint-disable-next-line no-alert
-            alert('You will no longer see this review, our team is taking a look at it!');
-            onHide();
+            setReported(true);
           }}
         >
-          Submit report
+          {reported ? 'Report sent' : 'Submit report'}
         </Button>
       </Modal.Footer>
     </Modal>

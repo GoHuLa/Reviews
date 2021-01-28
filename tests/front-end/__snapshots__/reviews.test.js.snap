@@ -4,7 +4,7 @@ exports[`<NewReview /> moving the mouse over the stars changes the width 1`] = `
 <DocumentFragment>
   <div>
     <button
-      class="btn btn-primary btn-md"
+      class="btn btn-secondary btn-md"
       data-testid="toggle-form"
       type="button"
     >
@@ -129,7 +129,7 @@ exports[`<NewReview /> toggle the form resets the state values if not submitted 
 <DocumentFragment>
   <div>
     <button
-      class="btn btn-primary btn-md"
+      class="btn btn-secondary btn-md"
       data-testid="toggle-form"
       style=""
       type="button"
