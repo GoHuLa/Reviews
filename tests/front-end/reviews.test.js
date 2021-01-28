@@ -12,6 +12,7 @@ import Reviews from '../../src/components/Reviews';
 import Review from '../../src/components/Review';
 import Stars from '../../src/components/Stars';
 import NewReview from '../../src/components/NewReview';
+import Report from '../../src/components/Report';
 
 const axios = require('axios');
 
@@ -178,5 +179,28 @@ describe('<NewReview />', () => {
     const toggle = getByTestId('toggle-form');
     userEvent.dblClick(toggle);
     expect(asFragment()).toMatchSnapshot();
+  });
+});
+
+describe('<Report />', () => {
+  test('modal does not exist if "show" is false', () => {
+    const { queryByTestId } = render(<Report show={false} id="1" onHide={jest.fn()} />);
+    const modal = queryByTestId('modal');
+    expect(modal).toBeNull();
+  });
+  test('is in the document if "show" is true', () => {
+    const { container } = render(<Report show id="1" onHide={jest.fn()} />);
+    expect(container).toBeInTheDocument();
+  });
+  test('the component checks localStorage on mounting', () => {
+    render(<Report show id="1" onHide={jest.fn()} />);
+    expect(jest.isMockFunction(global.localStorage.getItem)).toBeTruthy();
+    expect(global.localStorage.getItem).toHaveBeenCalledWith('reportedReviews');
+  });
+  test('clicking "submit" adds the item\'s _id to localStorage', () => {
+    const hide = jest.fn();
+    const { getByTestId } = render(<Report show id="1" onHide={hide} />);
+    userEvent.click(getByTestId('submit-report'));
+    expect(global.localStorage.setItem).toHaveBeenCalledWith('reportedReviews', ['1']);
   });
 });

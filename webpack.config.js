@@ -1,8 +1,16 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: path.join(__dirname, 'src/index.html'),
+  filename: 'index.html',
+  inject: 'body',
+});
 // const webpack = require('webpack');
 
 module.exports = {
-  mode: 'development',
+  mode: `${process.env.MODE}`,
   entry: path.resolve(__dirname, 'src/index.jsx'),
   output: {
     filename: 'bundle.js',
@@ -13,8 +21,9 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: [
-          path.resolve(__dirname, 'node_modules'),
-          path.resolve(__dirname, './coverage'),
+          /node_modules/,
+          /coverage/,
+          /tests/,
         ],
         loader: 'babel-loader',
         options: {
@@ -57,6 +66,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin(),
+    HTMLWebpackPluginConfig,
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
