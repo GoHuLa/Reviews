@@ -12,7 +12,7 @@ import style from './newreview.module.css';
 
 const axios = require('axios');
 
-const url = 'http://52.53.221.54:3001'; // me
+const url = 'http://54.177.240.142:3001'; // me
 // const url = 'http://54.90.53.234:3001'; // joey
 // const url = 'http://3.15.40.71:3001'; // pablo
 // const url = 'http://localhost:3001';
