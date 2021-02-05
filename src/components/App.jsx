@@ -9,12 +9,13 @@ import '../style.css';
 
 const App = () => {
   const [newReview, addNewReview] = React.useState(false);
+
   return (
     <HashRouter>
       <Switch>
         <Route path="/product/:prodId">
           <NewReview change={addNewReview} />
-          <Reviews new={newReview} />
+          <Reviews addedReview={newReview} />
         </Route>
       </Switch>
     </HashRouter>
